@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HHS | Unaccompanied Children Program</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">HHS</div>
+        <div>
+          <strong>Unaccompanied Children Program</strong>
+          <span>Operational insights dashboard</span>
+        </div>
+      </div>
+      <div class="source">Source: <a href="https://www.hhs.gov/" target="_blank" rel="noreferrer">HHS.gov</a></div>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">PROGRAM OVERVIEW</p>
+          <h1>Care operations at a glance</h1>
+          <p class="subtitle">Explore daily movement through CBP custody and HHS care using the public HHS program data.</p>
+        </div>
+        <label class="upload">
+          <span>Load another CSV</span>
+          <input id="file-input" type="file" accept=".csv,text/csv" />
+        </label>
+      </section>
+
+      <section class="filters panel">
+        <div class="filter">
+          <label for="start-date">From</label>
+          <input id="start-date" type="date" />
+        </div>
+        <div class="filter">
+          <label for="end-date">To</label>
+          <input id="end-date" type="date" />
+        </div>
+        <button id="reset-filters" class="button secondary">Reset filters</button>
+        <p id="status" class="status" role="status"></p>
+      </section>
+
+      <section class="kpis" aria-label="Program summary">
+        <article class="kpi panel accent-blue"><span>Children in HHS care</span><strong id="kpi-care">—</strong><small id="kpi-care-detail">Latest available day</small></article>
+        <article class="kpi panel accent-teal"><span>Average daily apprehensions</span><strong id="kpi-apprehensions">—</strong><small>Selected period</small></article>
+        <article class="kpi panel accent-purple"><span>Total discharged</span><strong id="kpi-discharged">—</strong><small>Selected period</small></article>
+        <article class="kpi panel accent-orange"><span>Net custody transfers</span><strong id="kpi-transfers">—</strong><small>Transferred out minus in</small></article>
+      </section>
+
+      <section class="grid two">
+        <article class="panel chart-card">
+          <div class="card-heading"><div><p class="eyebrow">DAILY TREND</p><h2>Children in care</h2></div><span class="legend"><i class="swatch blue"></i> HHS care</span></div>
+          <div class="chart-wrap"><canvas id="care-chart" aria-label="Line chart of children in HHS care"></canvas></div>
+        </article>
+        <article class="panel chart-card">
+          <div class="card-heading"><div><p class="eyebrow">DAILY FLOW</p><h2>Custody movement</h2></div><span class="legend"><i class="swatch teal"></i> In <i class="swatch orange"></i> Out</span></div>
+          <div class="chart-wrap"><canvas id="flow-chart" aria-label="Bar chart of custody movement"></canvas></div>
+        </article>
+      </section>
+
+      <section class="panel table-card">
+        <div class="card-heading">
+          <div><p class="eyebrow">SOURCE RECORDS</p><h2>Daily program activity</h2></div>
+          <span id="row-count" class="pill">0 records</span>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Date</th><th>Apprehended</th><th>In CBP custody</th><th>Transferred out</th><th>In HHS care</th><th>Discharged</th></tr></thead>
+            <tbody id="data-table"></tbody>
+          </table>
+        </div>
+      </section>
+      <p class="footnote">* Apprehensions represent children apprehended and placed in CBP custody. Values are displayed as reported by HHS; commas in the source are handled during import.</p>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
