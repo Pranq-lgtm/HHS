@@ -83,8 +83,6 @@ Summary statistics and data-quality checks side by side.
 
 ![Distribution and Data Quality](screenshots/distribution_quality.png)
 
-> [!NOTE]
-> To add your own screenshots, run the app and capture images into the `screenshots/` folder with the filenames shown above.
 
 ---
 

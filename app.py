@@ -107,12 +107,18 @@ def render_chart_with_selection(
                     filtered.set_index(DATE_COLUMN)[single_col]
                     .rename(columns={MEASURE_COLUMNS[name]: name})
                 )
-                st.line_chart(single_data, color=[CHART_COLORS[name]], height=200)
+                single_color = [CHART_COLORS[name]]
+                if chart_type == "Line":
+                    st.line_chart(single_data, color=single_color, height=200)
+                elif chart_type == "Area":
+                    st.area_chart(single_data, color=single_color, height=200)
+                else:
+                    st.bar_chart(single_data, color=single_color, height=200)
 
 
 def main() -> None:
     st.set_page_config(page_title="HHS Unaccompanied Children EDA", layout="wide")
-    st.title("HHS Unaccompanied Children Program: Exploratory Data Analysis")
+    st.title("HHS Unaccompanied Children Program: Exploratory Data Analysis", anchor=False)
     st.caption(
         "Descriptive operational snapshots only. Missing dates are not interpreted as zero activity, "
         "and totals are not unique-child counts."
@@ -162,7 +168,7 @@ def main() -> None:
     st.divider()
 
     # -- HHS Care Population Chart ---------------------------------------------
-    st.subheader("HHS Care Population")
+    st.subheader("HHS Care Population", anchor=False)
     st.caption("Track the number of children in HHS care over time. Use the dropdown to overlay related metrics.")
     render_chart_with_selection(
         filtered,
@@ -174,7 +180,7 @@ def main() -> None:
     st.divider()
 
     # -- Operational Flows Chart -----------------------------------------------
-    st.subheader("Operational Flows")
+    st.subheader("Operational Flows", anchor=False)
     st.caption(
         "Compare CBP apprehension, custody, transfer, and discharge flows. "
         "Select individual metrics or combine them."
@@ -190,7 +196,7 @@ def main() -> None:
     st.divider()
 
     # -- All Metrics Combined --------------------------------------------------
-    st.subheader("Custom Metric Explorer")
+    st.subheader("Custom Metric Explorer", anchor=False)
     st.caption("Build your own comparison by selecting any combination of available metrics.")
     all_metrics = list(MEASURE_COLUMNS.keys())
     render_chart_with_selection(
@@ -205,7 +211,7 @@ def main() -> None:
     # -- Summary Statistics & Data Quality -------------------------------------
     left, right = st.columns(2)
     with left:
-        st.subheader("Distribution of Measures")
+        st.subheader("Distribution of Measures", anchor=False)
         summary = filtered[list(MEASURE_COLUMNS.values())].describe().T
         summary.index = MEASURE_COLUMNS.keys()
         st.dataframe(
@@ -214,7 +220,7 @@ def main() -> None:
             .round(1)
         )
     with right:
-        st.subheader("Data-Quality Checks")
+        st.subheader("Data-Quality Checks", anchor=False)
         flow_columns = [MEASURE_COLUMNS[name] for name in flow_metrics]
         duplicate_dates = int(filtered[DATE_COLUMN].duplicated().sum())
         observed_days = (filtered[DATE_COLUMN].max() - filtered[DATE_COLUMN].min()).days + 1
@@ -230,7 +236,7 @@ def main() -> None:
     st.divider()
 
     # -- Source Records --------------------------------------------------------
-    st.subheader("Source Records")
+    st.subheader("Source Records", anchor=False)
     st.dataframe(filtered, use_container_width=True)
 
 
